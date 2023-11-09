@@ -1,12 +1,12 @@
 const axios = require('axios');
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const targetUrl = ''; // Add the target URL.
 
 const cookies = [
     // Include necessary cookies from your session.
 ];
-  
+
 const cookieHeader = cookies.join('; ');
-const targetUrl = ''; // Add the target URL.
 
 const headers = {
   headers: {
@@ -22,10 +22,10 @@ async function checkSite(url, keyword, headers) {
 
             const keywordPattern = new RegExp(keyword, 'i');
             if (keywordPattern.test(data)) {
-                console.log(`No "${keyword}" yet...`);
+                console.log(`A wild "${keyword}" has appeared!!!`);
                 break;
             } else {
-                console.log(`A wile "${keyword}" has appeared!!!`);
+                console.log(`No "${keyword}" yet...`);
             }
 
             await sleep(10000); // Delay in ms.
