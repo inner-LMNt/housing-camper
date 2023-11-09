@@ -10,7 +10,6 @@ const cookies = [
 ];
 
 const cookieHeader = cookies.join('; ');
-const targetUrl = ''; // Change this to a target URL
 const headers = {
     headers: {
         Cookie: cookieHeader,
@@ -48,6 +47,7 @@ async function checkSite(url, keyword, headers) {
 }
 
 
+const targetUrl = ''; // Change this to a target URL
 const keyword = ''; // Change this to a keyword to search for
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 checkSite(targetUrl, keyword, headers);
