@@ -1,41 +1,53 @@
 const axios = require('axios');
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-const targetUrl = ''; // Add the target URL.
+
+const { exec } = require('child_process');
+const vlcExecutable = ''; // Change this to the VLC executable path (vlc.exe)
+const audio = ''; // Change this to the audio file path
+const command = `"${vlcExecutable}" ${audio}`;
 
 const cookies = [
-    // Include necessary cookies from your session.
+    '', // Add all relevant cookies here
 ];
 
 const cookieHeader = cookies.join('; ');
-
+const targetUrl = ''; // Change this to a target URL
 const headers = {
-  headers: {
-    Cookie: cookieHeader,
-  },
+    headers: {
+        Cookie: cookieHeader,
+    },
 };
+
 
 async function checkSite(url, keyword, headers) {
     while (true) {
         try {
             const response = await axios.get(url, headers);
             const data = response.data;
-
             const keywordPattern = new RegExp(keyword, 'i');
+
             if (keywordPattern.test(data)) {
                 console.log(`A wild "${keyword}" has appeared!!!`);
+                exec(command, (err) => {
+                    if (err) {
+                        console.error(`Error playing audio: ${err}`);
+                        return;
+                    }
+                    console.log('Audio playback completed.');
+                });        
                 break;
             } else {
                 console.log(`No "${keyword}" yet...`);
             }
 
-            await sleep(10000); // Delay in ms.
+            await sleep(10000);
         } catch (error) {
-            console.log(error);
-            await sleep(10000); // Delay in ms.
+            console.log('Error making HTTP request:', error);
+            await sleep(10000);
         }
     }
 }
 
-const keyword = ''; // Insert the keyword you want to search for.
 
+const keyword = ''; // Change this to a keyword to search for
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 checkSite(targetUrl, keyword, headers);
